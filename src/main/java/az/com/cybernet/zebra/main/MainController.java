@@ -54,7 +54,7 @@ public class MainController implements Initializable {
     public static ObservableList<Product> tableData;
 
     public static User currentUser;
-    public String finalData;
+    public String finalData, productName;
 
     @Override
     @FXML
@@ -64,33 +64,39 @@ public class MainController implements Initializable {
         List<Product> products = productDao.getAllProducts();
         tableData = FXCollections.observableArrayList(products);
 
-        TableColumn<Product, String> columnId = new TableColumn<>("ID");
-        columnId.setCellValueFactory(new PropertyValueFactory<>("productId"));
-        columnId.prefWidthProperty().bind(productTableView.widthProperty().divide(4));
+        TableColumn<Product, String> columnHSCode = new TableColumn<>("HS-Code");
+        columnHSCode.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        columnHSCode.prefWidthProperty().bind(productTableView.widthProperty().divide(5));
 
-        TableColumn<Product, String> columnName = new TableColumn<>("NAME");
-        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        columnName.prefWidthProperty().bind(productTableView.widthProperty().divide(4));
+        TableColumn<Product, String> columnGS1Code = new TableColumn<>("GS1-Code");
+        columnGS1Code.setCellValueFactory(new PropertyValueFactory<>("gs1Code"));
+        columnGS1Code.prefWidthProperty().bind(productTableView.widthProperty().divide(5));
 
-        TableColumn<Product, String> columnAmount = new TableColumn<>("AMOUNT");
-        columnAmount.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        columnAmount.prefWidthProperty().bind(productTableView.widthProperty().divide(4));
+        TableColumn<Product, String> columnProductName = new TableColumn<>("Name");
+        columnProductName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnProductName.prefWidthProperty().bind(productTableView.widthProperty().divide(5));
 
         TableColumn<Product, String> columnDate = new TableColumn<>("DATE");
         columnDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        columnDate.prefWidthProperty().bind(productTableView.widthProperty().divide(4));
+        columnDate.prefWidthProperty().bind(productTableView.widthProperty().divide(5));
 
-        productTableView.getColumns().add(columnId);
-        productTableView.getColumns().add(columnName);
-        productTableView.getColumns().add(columnAmount);
+        TableColumn<Product, String> columnDesc = new TableColumn<>("Description");
+        columnDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        columnDesc.prefWidthProperty().bind(productTableView.widthProperty().divide(5));
+
+        productTableView.getColumns().add(columnHSCode);
+        productTableView.getColumns().add(columnGS1Code);
+        productTableView.getColumns().add(columnProductName);
         productTableView.getColumns().add(columnDate);
+        productTableView.getColumns().add(columnDesc);
 
         productTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 Product p = productTableView.getSelectionModel().getSelectedItem();
-                String data = p.getProductId() + "_" + p.getName() + "_" + p.getDate();
+                String data = p.getProductId() + "_" + p.getGs1Code() + "_" + p.getDate();
                 String signedData = SignUtils.signData(data, currentUser.getPrivateKey());
                 finalData = data + "_" + signedData;
+                productName = p.getName();
                 System.out.println(finalData.length());
                 BufferedImage image = QRUtils.getImageQR(finalData);
 
@@ -119,6 +125,10 @@ public class MainController implements Initializable {
                 } else if (product.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches  name.
                 } else if (product.getDate().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches   date.
+                } else if (product.getGs1Code().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches   date.
+                } else if (product.getDescription().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches   date.
                 }
                 return false; // Does not match.
@@ -165,7 +175,7 @@ public class MainController implements Initializable {
     public void deleteSection() {
         try {
             DeleteController.tableView = productTableView;
-            DeleteController.txtSearch=search;
+            DeleteController.txtSearch = search;
             DeleteController.selectedProductId = productTableView.getSelectionModel().getSelectedItem().getId();
             DeleteProduct delete = new DeleteProduct();
             Stage stage = new Stage();
@@ -181,7 +191,7 @@ public class MainController implements Initializable {
 
     public void printQr() {
         try {
-            PrintWithZPL2.print(finalData);
+            PrintWithZPL2.print(finalData, productName);
 
         } catch (ZebraPrintException ex) {
             Logger.getLogger(MainController.class

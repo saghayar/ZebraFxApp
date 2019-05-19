@@ -19,7 +19,15 @@ public class MainApp extends Application {
         
         stage.setTitle("Cybernet");
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
+        
+        String s = new String("JavaFX");
+        String s1 = new String("JavaFX");
+        String s3 = new String("JavaFX");
+        String s4 = new String("JavaFX");
+
+
+
 //        stage.setAlwaysOnTop(true);
         stage.show();
     }

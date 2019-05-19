@@ -31,8 +31,14 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "PRODUCT_ID  ")
+    @Column(name = "HS_CODE  ")
     private String productId;
+    
+    
+    
+    @Column(name = "GS1_CODE")
+    @NotNull
+    private String gs1Code;
 
     @Column(name = "PRODUCT_NAME")
     @NotNull
@@ -40,6 +46,11 @@ public class Product implements Serializable {
 //    @Column(name = "PRODUCT_AMOUNT")
 //    @NotNull
 //    private String quantity;
+    
+    @Column(name = "DESCRIPTION")
+    @NotNull
+    private String description;
+    
     @Column(name = "CREATION_DATE")
     @NotNull
     private String date;
@@ -51,13 +62,37 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(Long id, String productId, String name, String date, String state) {
+    public Product(Long id, String productId, String gs1Code, String name, String description, String date, String state) {
         this.id = id;
         this.productId = productId;
+        this.gs1Code = gs1Code;
         this.name = name;
+        this.description = description;
         this.date = date;
         this.state = state;
     }
+
+    
+    
+ 
+
+    public String getGs1Code() {
+        return gs1Code;
+    }
+
+    public void setGs1Code(String gs1Code) {
+        this.gs1Code = gs1Code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+     
 
   
 

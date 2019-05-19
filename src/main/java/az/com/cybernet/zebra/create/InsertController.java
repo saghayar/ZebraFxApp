@@ -23,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -33,11 +34,14 @@ import javafx.stage.Stage;
 public class InsertController implements Initializable {
 
     @FXML
-    private TextField productId;
+    private TextField hsCode;
+    @FXML
+    private TextField gs1Code;
     @FXML
     private TextField productName;
     @FXML
-    private TextField quantity;
+    private TextArea description;
+    
 
     @FXML
     private DatePicker date;
@@ -49,10 +53,14 @@ public class InsertController implements Initializable {
     private void createProduct(ActionEvent event) {
         ProductDao productDao = new ProductDaoImpl();
         Product product = new Product();
-        product.setProductId(productId.getText().trim());
+        
+        product.setProductId(hsCode.getText().trim());
+        product.setGs1Code(gs1Code.getText().trim());
         product.setName(productName.getText().trim()); 
+        product.setDescription(description.getText());
         product.setDate(date.getValue().format(DateTimeFormatter.BASIC_ISO_DATE));
         product.setState("1");
+        
         productDao.createProduct(product);
 
 //        tableView.getItems().add(product);without filter
@@ -70,7 +78,7 @@ public class InsertController implements Initializable {
 
 //        pId = pId.length() > 9 ? pId.substring(0, 9) : StringUtils.leftPad(pId, 9, '1');
 
-        productId.setText(pId);
+        hsCode.setText(pId);
 //        Image imageDecline = new Image(getClass().getResourceAsStream("/img/browse.png"));
 //        create.setGraphic(new ImageView(imageDecline));
     }

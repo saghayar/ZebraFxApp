@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -29,11 +30,14 @@ import javafx.stage.Stage;
 public class EditController implements Initializable {
 
     @FXML
-    private TextField productId;
+    private TextField hsCode;
+    @FXML
+    private TextField gs1Code;
     @FXML
     private TextField productName;
     @FXML
-    private TextField quantity;
+    private TextArea description;
+
     @FXML
     private Button create;
     @FXML
@@ -49,8 +53,10 @@ public class EditController implements Initializable {
     private void editProduct(ActionEvent event) {
         ProductDao productDao = new ProductDaoImpl();
         Product product = productDao.findProductById(selectedProductId);
-        product.setProductId(productId.getText().trim());
+        product.setProductId(hsCode.getText().trim());
         product.setName(productName.getText().trim());
+        product.setGs1Code(gs1Code.getText().trim());
+        product.setDescription(description.getText().trim());
         product.setDate(date.getValue().format(DateTimeFormatter.BASIC_ISO_DATE));
         productDao.editProduct(product);
 
@@ -66,8 +72,10 @@ public class EditController implements Initializable {
         ProductDao productDao = new ProductDaoImpl();
         Product p = productDao.findProductById(selectedProductId);
 
-        productId.setText(p.getProductId());
+        hsCode.setText(p.getProductId());
+        gs1Code.setText(p.getGs1Code());
         productName.setText(p.getName());
+        description.setText(p.getDescription());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         date.setValue(LocalDate.parse(p.getDate(), formatter));

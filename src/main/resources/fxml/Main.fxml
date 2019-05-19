@@ -1,19 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane id="AnchorPane" prefHeight="701.0" prefWidth="1029.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="az.com.cybernet.zebra.main.MainController">
    <children>
-      <ImageView fx:id="qrCode" fitHeight="177.0" fitWidth="200.0" layoutX="8.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-      <TextField fx:id="search" layoutX="790.0" layoutY="146.0" prefHeight="31.0" prefWidth="211.0" promptText="Search by any column" />
-      <TableView fx:id="productTableView" layoutX="1.0" layoutY="189.0" prefHeight="424.0" prefWidth="1028.0" />
-      <Button layoutX="723.0" layoutY="635.0" mnemonicParsing="false" onAction="#insertSection" prefHeight="31.0" prefWidth="63.0" text="Insert" />
-      <Button layoutX="795.0" layoutY="635.0" mnemonicParsing="false" onAction="#updateSection" text="Update" />
-      <Button layoutX="873.0" layoutY="635.0" mnemonicParsing="false" onAction="#deleteSection" text="Delete" />
-      <Button layoutX="950.0" layoutY="635.0" mnemonicParsing="false" onAction="#printQr" text="Print" />
+      <HBox layoutX="1.0" prefHeight="177.0" prefWidth="1021.0">
+         <children>
+            <GridPane prefHeight="199.0" prefWidth="1003.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="49.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="184.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="184.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="184.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <ImageView fx:id="qrCode" fitHeight="177.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <TextField fx:id="search" prefHeight="31.0" prefWidth="211.0" promptText="Search by any column" GridPane.columnIndex="4">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+      <TableView fx:id="productTableView" layoutX="1.0" layoutY="199.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="1028.0" />
+      <HBox layoutX="723.0" layoutY="635.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#insertSection" prefHeight="31.0" prefWidth="63.0" text="Insert" />
+            <Button mnemonicParsing="false" onAction="#updateSection" text="Update" />
+            <Button mnemonicParsing="false" onAction="#deleteSection" text="Delete" />
+            <Button mnemonicParsing="false" onAction="#printQr" text="Print" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

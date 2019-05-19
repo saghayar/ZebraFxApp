@@ -14,5 +14,6 @@
       <PasswordField fx:id="password" layoutX="168.0" layoutY="151.0" prefHeight="31.0" prefWidth="301.0" />
       <Button layoutX="404.0" layoutY="215.0" mnemonicParsing="false" onAction="#authenticate" text="Login" />
       <Label fx:id="alertLbl" layoutX="82.0" layoutY="246.0" />
+      <Button fx:id="btnChooseCert" layoutX="83.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleBtnChooseClick" text="Choose" />
    </children>
 </AnchorPane>
